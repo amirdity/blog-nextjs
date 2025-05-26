@@ -1,8 +1,6 @@
+import { auth, signIn } from "@/auth";
 import Image from "next/image";
 import Link from "next/link";
-import { auth } from "../lib/auth";
-// import { signIn, signOut } from "next-auth/react";
-import { signInAction } from "../lib/actions";
 
 const Navbar = async () => {
   const session = await auth();
@@ -27,9 +25,14 @@ const Navbar = async () => {
               </Link>
             </>
           ) : (
-            <form action={signInAction}>
+            <form
+              action={async () => {
+                "use server";
+                await signIn("github");
+              }}
+            >
               <button type="submit">
-                <span>login</span>
+                <span>Signin with GitHub</span>
               </button>
             </form>
           )}
